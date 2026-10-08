@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Was koch ma heut?</title>
+<title>Was kochen wir heute?</title>
 <style>
 :root{
   --gruen:#4f6b45;--gruen2:#6f8f63;--gruen3:#93a97f;--gruen-hell:#eef2ea;
@@ -69,6 +69,35 @@ input:focus,select:focus{outline:none;border-color:var(--gruen2);box-shadow:0 0 
 .item input{width:20px;height:20px;margin-top:2px;accent-color:var(--gruen2);flex:0 0 auto}
 .item.ok span{text-decoration:line-through;color:var(--leise)}
 .rliste{display:grid;gap:10px;margin-top:12px}
+.rrow{display:flex;gap:8px;align-items:stretch}
+.rrow .rkarte{flex:1}
+.add{flex:0 0 52px;border:1.5px solid var(--linie);background:#fff;border-radius:16px;font-size:1.3rem;cursor:pointer;color:var(--gruen);font-weight:700}
+.add.drin{background:var(--gruen2);border-color:var(--gruen2);color:#fff}
+.wahl{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--linie)}
+.wahl .wn{flex:1;font-weight:600;cursor:pointer}
+.wahl .wp{display:flex;align-items:center;gap:6px;font-size:.9rem}
+.wahl button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--linie);background:#fff;cursor:pointer;color:var(--gruen);font-size:1rem}
+.korb{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:40;background:var(--gruen);color:#fff;border:0;border-radius:999px;padding:13px 20px;font:inherit;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.2);cursor:pointer;display:none;max-width:calc(100% - 32px);white-space:nowrap}
+.korb.an{display:block}
+.modal-add{width:100%;margin:14px 0 4px}
+.shop{position:fixed;inset:0;z-index:60;background:var(--grund);display:none;flex-direction:column}
+.shop.auf{display:flex}
+.shop-kopf{background:linear-gradient(135deg,var(--gruen2),var(--gruen3));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.shop-kopf h2{margin:0;font-size:1.35rem;flex:1}
+.shop-kopf small{display:block;font-size:.9rem;opacity:.95;font-weight:600}
+.shop-kopf button{border:0;background:rgba(255,255,255,.25);color:#fff;width:42px;height:42px;border-radius:50%;font-size:1.4rem;cursor:pointer}
+.shop-bar{height:6px;background:rgba(255,255,255,.3);border-radius:3px;margin-top:6px;overflow:hidden}
+.shop-bar i{display:block;height:100%;background:#fff;width:0;transition:width .3s}
+.shop-liste{flex:1;overflow:auto;padding:6px 16px 20px;max-width:760px;width:100%;margin:0 auto}
+.shop-liste h3{margin:18px 0 6px;color:var(--gruen);font-size:1rem;text-transform:uppercase;letter-spacing:.04em}
+.srow{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;font-size:1.1rem;background:#fff;border:1px solid var(--linie);border-radius:14px;padding:14px;margin:6px 0;cursor:pointer;color:var(--text);min-height:56px}
+.srow .kreis{flex:0 0 28px;height:28px;border-radius:50%;border:2px solid var(--gruen3);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem}
+.srow.ok{background:transparent;color:var(--leise)}
+.srow.ok .kreis{background:var(--gruen2);border-color:var(--gruen2)}
+.srow.ok .st{text-decoration:line-through}
+.srow b{font-weight:700}
+.shop-fuss{padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--linie);display:flex;gap:10px;justify-content:center}
+.fertig{text-align:center;padding:30px 10px;font-size:1.15rem;color:var(--gruen);font-weight:700}
 .rkarte{text-align:left;font:inherit;background:#fff;border:1px solid var(--linie);border-radius:16px;padding:12px 14px;cursor:pointer;color:var(--text)}
 .rkarte b{display:block;font-size:1.02rem}
 .rkarte small{color:var(--leise)}
@@ -89,13 +118,13 @@ input:focus,select:focus{outline:none;border-color:var(--gruen2);box-shadow:0 0 
 .portion{display:flex;align-items:center;gap:10px;margin:10px 0}
 .portion button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--linie);background:#fff;font-size:1.2rem;cursor:pointer;color:var(--gruen)}
 .geraet{background:var(--blau-hell);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:.95rem}
-footer{text-align:center;color:var(--leise);font-size:.85rem;padding:10px 16px 30px}
+footer{text-align:center;color:var(--leise);font-size:.85rem;padding:10px 16px 90px}
 footer a{color:var(--gruen)}
 .banner{background:var(--sonne-hell);border-radius:14px;padding:10px 14px;margin-bottom:10px;font-size:.92rem;display:none}
 .banner.an{display:block}
 @media(max-width:380px){header h1{font-size:1.7rem}.slot .sl{flex-basis:60px}}
 @media print{
-  nav,.idee-btn,.btns,.swap,#k1,#k2,#k5,.banner,.modal,footer{display:none!important}
+  .shop,.korb,.add,.wahl button,#quelle,nav,.idee-btn,.btns,.swap,#k1,#k2,#k5,.banner,.modal,footer{display:none!important}
   header{background:none;color:var(--gruen);padding:0 0 8px}
   body{background:#fff}
   .karte{border:0;padding:0;break-inside:auto}
@@ -108,7 +137,7 @@ footer a{color:var(--gruen)}
 </head>
 <body>
 <header><div class="in">
-  <h1><span aria-hidden="true">🌿</span> Was koch ma heut?</h1>
+  <h1><span aria-hidden="true">🌿</span> Was kochen wir heute?</h1>
   <p>Dein Wochenplan · österreichisch kochen · glutenfrei möglich · Einkaufsliste dazu</p>
   <button class="idee-btn" id="idee">✨ Gib mir eine Idee für heute</button>
 </div></header>
@@ -192,6 +221,7 @@ footer a{color:var(--gruen)}
     <label class="chip"><input type="checkbox" id="guenstig"><span>💶 Günstig einkaufen</span></label>
     <label class="chip"><input type="checkbox" id="klassik"><span>🇦🇹 Klassiker bevorzugen</span></label>
     <label class="chip"><input type="checkbox" id="reste"><span>🥡 Abends doppelt kochen fürs Mittag</span></label>
+    <label class="chip"><input type="checkbox" id="disk"><span>🛒 Einkauf beim Diskonter, Lidl, Hofer, Penny</span></label>
   </div>
 </section>
 
@@ -208,10 +238,15 @@ footer a{color:var(--gruen)}
 
 <section class="karte liste" id="k4">
   <h2>4 · Deine Einkaufsliste</h2>
+  <div class="chips" id="quelle">
+    <label class="chip"><input type="radio" name="quelle" value="plan"><span>Aus dem Wochenplan</span></label>
+    <label class="chip"><input type="radio" name="quelle" value="auswahl"><span id="qAus">Aus meinen Rezepten</span></label>
+  </div>
+  <div id="auswahl"></div>
   <p class="hinweis" id="einkaufInfo"></p>
   <div class="btns">
-    <button class="btn" id="kopieren">📋 Liste kopieren</button>
-    <button class="btn zart" id="druckListe">🖨️ Liste drucken</button>
+    <button class="btn" id="losBtn">🛒 Jetzt einkaufen</button>
+    <button class="btn zart" id="teilen">📤 Liste schicken</button>
     <button class="btn zart" id="hakenWeg">Haken zurücksetzen</button>
   </div>
   <div id="einkauf"></div>
@@ -225,6 +260,7 @@ footer a{color:var(--gruen)}
     <label class="chip"><input type="radio" name="rt" value="F"><span>Frühstück</span></label>
     <label class="chip"><input type="radio" name="rt" value="H"><span>Hauptgericht</span></label>
     <label class="chip"><input type="radio" name="rt" value="S"><span>Snack</span></label>
+    <label class="chip"><input type="radio" name="rt" value="solo"><span>Schnell für 1 Person</span></label>
   </div>
   <div class="chips" style="margin-top:8px">
     <label class="chip"><input type="checkbox" id="nurPassend" checked><span>Nur was zu meinen Einstellungen passt</span></label>
@@ -235,6 +271,12 @@ footer a{color:var(--gruen)}
 
 <footer>Orientierung für deinen Alltag, keine ärztliche Ernährungsberatung.<br>Mit Herz gemacht von <a href="https://innervision.at" target="_blank" rel="noopener">InnerVision</a> · Kerstin Püringer</footer>
 
+<button class="korb" id="korb"></button>
+<div class="shop" id="shop" role="dialog" aria-modal="true">
+  <div class="shop-kopf"><div style="flex:1"><h2>🛒 Einkaufen</h2><small id="shopZahl"></small><div class="shop-bar"><i id="shopBar"></i></div></div><button id="shopZu" aria-label="Schließen">×</button></div>
+  <div class="shop-liste" id="shopListe"></div>
+  <div class="shop-fuss"><button class="btn zart" id="shopTeilen">📤 Schicken</button><button class="btn" id="shopFertig">Fertig</button></div>
+</div>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box" id="mbox"></div></div>
 
 <script>
@@ -243,24 +285,24 @@ footer a{color:var(--gruen)}
    Tausch g glutenfrei, l laktosefrei, m pure Milch (bei Blutgruppe 0 wird o verwendet) */
 const R=[
 /* FRÜHSTÜCK */
-{id:'eierspeis',n:'Gemüse Eierspeis mit Schnittlauch',t:'F',z:10,d:['herd'],k:'ei',c:1,kl:1,
+{id:'eierspeis',solo:1,dk:1,n:'Gemüse Eierspeis mit Schnittlauch',t:'F',z:10,d:['herd'],k:'ei',c:1,kl:1,
 zu:[[4,'Stk','Eier','K'],[1,'Stk','Zucchini','G'],[50,'g','Blattspinat frisch','G'],[1,'TL','Butter','K',{l:'Olivenöl'}],[0,'','Schnittlauch','W'],[0,'','Salz und Pfeffer','W']],
 s:['Zucchini klein würfeln und in Butter 3 Minuten anbraten.','Spinat dazu und kurz zusammenfallen lassen.','Eier verquirlen, salzen, drübergießen und bei mittlerer Hitze cremig stocken lassen.','Mit Schnittlauch bestreuen.'],
 tip:'Dazu Gurke und Paprika. Wer mag, nimmt eine Scheibe Brot dazu.'},
-{id:'eiermuffins',n:'Eiermuffins zum Mitnehmen',t:'F',z:20,d:['air','herd'],k:'ei',c:1,
+{id:'eiermuffins',solo:1,dk:1,n:'Eiermuffins zum Mitnehmen',t:'F',z:20,d:['air','herd'],k:'ei',c:1,
 zu:[[6,'Stk','Eier','K'],[1,'Stk','Paprika','G'],[50,'g','Blattspinat frisch','G'],[60,'g','Putenschinken','F'],[40,'g','Bergkäse gerieben','K',{l:'laktosefreier Bergkäse'}],[0,'','Salz und Pfeffer','W']],
 s:['Paprika, Spinat und Putenschinken klein schneiden.','Mit den Eiern und dem Käse verquirlen, salzen und pfeffern.','In Silikonförmchen füllen und backen, bis sie fest sind.'],
 v:{air:'Im Airfryer 160 Grad, 12 bis 14 Minuten.',herd:'Im Backrohr 180 Grad Ober und Unterhitze, ca. 20 Minuten.'},
 tip:'Halten 3 Tage im Kühlschrank. Sonntag backen, die ganze Woche Frühstück für Bürotage.'},
-{id:'topfenbeeren',n:'Topfen mit Beeren und Nüssen',t:'F',z:5,d:[],k:'veggie',c:1,
+{id:'topfenbeeren',solo:1,dk:1,n:'Topfen mit Beeren und Nüssen',t:'F',z:5,d:[],k:'veggie',c:1,
 zu:[[250,'g','Topfen','K',{l:'laktosefreier Topfen'}],[200,'g','Beeren tiefgekühlt','G'],[30,'g','Walnüsse','V'],[2,'EL','Leinsamen geschrotet','V'],[0,'','Zimt','W']],
 s:['Beeren am Vorabend in den Kühlschrank zum Auftauen stellen.','Topfen mit einem Schuss Wasser cremig rühren.','Beeren, Nüsse, Leinsamen und Zimt drüber.'],
 tip:'Viel Eiweiß, wenig Aufwand. Ideal nach dem Training.'},
-{id:'overnight',n:'Overnight Haferflocken mit Apfel',t:'F',z:5,d:[],k:'veggie',c:1,
+{id:'overnight',solo:1,dk:1,n:'Overnight Haferflocken mit Apfel',t:'F',z:5,d:[],k:'veggie',c:1,
 zu:[[80,'g','Haferflocken','V',{g:'glutenfreie Haferflocken'}],[250,'ml','Milch','K',{m:1,l:'laktosefreie Milch',o:'Reisdrink'}],[1,'Stk','Apfel','G'],[20,'g','Mandeln','V'],[0,'','Zimt','W']],
 s:['Haferflocken mit Milch und Zimt verrühren.','Apfel reiben und untermischen.','Über Nacht in den Kühlschrank, morgens Mandeln drüber.'],
 tip:'Gut an Tagen, an denen du dich körperlich viel bewegst.'},
-{id:'eiweissteller',n:'Eiweißteller mit Putenbrust und Ei',t:'F',z:5,d:[],k:'pute',c:2,
+{id:'eiweissteller',solo:1,dk:1,n:'Eiweißteller mit Putenbrust und Ei',t:'F',z:5,d:[],k:'pute',c:2,
 zu:[[120,'g','Putenbrust Aufschnitt','F'],[2,'Stk','Eier','K'],[1,'Stk','Gurke','G'],[1,'Stk','Paprika','G'],[200,'g','Hüttenkäse','K',{l:'laktosefreier Hüttenkäse'}]],
 s:['Eier am Vortag kochen.','Gemüse in Sticks schneiden.','Alles auf einen Teller, fertig.'],
 tip:'Liegt nicht schwer im Magen. Gut vor dem Training am Vormittag.'},
@@ -292,11 +334,11 @@ tip:'Am nächsten Tag schmeckt es noch besser. Ruhig doppelt kochen und einfrier
 zu:[[800,'g','Tafelspitz','F'],[400,'g','Wurzelgemüse (Karotte, Sellerie, gelbe Rübe)','G'],[1,'Stk','Zwiebel','G'],[500,'g','Erdäpfel','G'],[1,'Stk','Apfel','G'],[2,'EL','Kren','V'],[0,'','Lorbeer, Pfefferkörner, Salz','W'],[0,'','Schnittlauch','W']],
 s:['Wasser mit Lorbeer, Pfefferkörnern und halbierter Zwiebel aufkochen.','Fleisch einlegen und 2,5 bis 3 Stunden leise köcheln lassen, nicht sprudelnd.','In den letzten 40 Minuten das Wurzelgemüse dazugeben.','Apfel reiben, mit Kren und etwas Zitronensaft mischen.','Suppe als Vorspeise, dann Fleisch mit Gemüse, Erdäpfeln und Apfelkren.'],
 tip:'Reste werden zu Grenadiermarsch. Die Suppe kannst du einfrieren.'},
-{id:'erdaepfelgulasch',n:'Erdäpfelgulasch mit Rindsfaschiertem',t:'H',z:45,d:['herd'],k:'rind',c:1,kl:1,
+{id:'erdaepfelgulasch',dk:1,n:'Erdäpfelgulasch mit Rindsfaschiertem',t:'H',z:45,d:['herd'],k:'rind',c:1,kl:1,
 zu:[[250,'g','Rindsfaschiertes','F'],[700,'g','Erdäpfel mehlig','G'],[2,'Stk','Zwiebel','G'],[1,'EL','Paprikapulver edelsüß','W'],[2,'EL','Rapsöl','V'],[600,'ml','Rindsuppe','V'],[0,'','Kümmel, Majoran, Salz','W']],
 s:['Zwiebeln würfeln und im Öl goldgelb anrösten.','Faschiertes dazu und krümelig anbraten.','Paprikapulver kurz mitrösten, mit Suppe ablöschen.','Erdäpfel würfeln, mit den Gewürzen dazu und 25 Minuten köcheln, bis es sämig wird.'],
 tip:'Günstig, sättigend und in einem Topf.'},
-{id:'spinatei',n:'Cremespinat mit Spiegelei und Erdäpfeln',t:'H',z:25,d:['herd','dampf'],k:'ei',c:1,kl:1,
+{id:'spinatei',solo:1,dk:1,dkt:'Blattspinat gibt es tiefgekühlt in Portionen, du nimmst nur so viel raus wie du brauchst.',n:'Cremespinat mit Spiegelei und Erdäpfeln',t:'H',z:25,d:['herd','dampf'],k:'ei',c:1,kl:1,
 zu:[[450,'g','Blattspinat tiefgekühlt','G'],[500,'g','Erdäpfel','G'],[4,'Stk','Eier','K'],[1,'Stk','Knoblauchzehe','G'],[100,'ml','Schlagobers','K',{l:'laktosefreies Schlagobers'}],[1,'EL','Butter','K',{l:'Olivenöl'}],[0,'','Muskat, Salz','W']],
 s:['Erdäpfel kochen.','Spinat mit Knoblauch in Butter erwärmen, Obers dazu, mit Muskat und Salz würzen und kurz pürieren.','Spiegeleier braten.'],
 v:{dampf:'Erdäpfel im Dampfgarer 100 Grad, 25 Minuten. Spinat in den letzten 8 Minuten mitgaren.'},
@@ -306,7 +348,7 @@ zu:[[250,'g','Rindsfaschiertes','F'],[250,'g','Putenfaschiertes','F'],[1,'Stk','
 s:['Erdäpfel schälen und weich kochen.','Faschiertes mit Ei, Bröseln, fein gehackter Zwiebel, Senf und Gewürzen verkneten.','Laibchen formen und in der Pfanne je Seite 5 Minuten braten.','Erdäpfel mit warmer Milch und Butter zu Püree stampfen.'],
 v:{air:'Laibchen im Airfryer 190 Grad, 12 bis 14 Minuten, nach der Hälfte wenden.'},
 tip:'Doppelte Menge machen, kalt sind sie die perfekte Jause.'},
-{id:'krautfleckerl',n:'Krautfleckerl mit Rindsfaschiertem',t:'H',z:35,d:['herd'],k:'rind',c:1,kl:1,
+{id:'krautfleckerl',no0:1,dk:1,n:'Krautfleckerl mit Rindsfaschiertem',t:'H',z:35,d:['herd'],k:'rind',c:1,kl:1,
 zu:[[500,'g','Weißkraut','G'],[1,'Stk','Zwiebel','G'],[200,'g','Dinkelfleckerl','V',{g:'glutenfreie Nudeln'}],[200,'g','Rindsfaschiertes','F'],[1,'TL','Zucker','V'],[2,'EL','Rapsöl','V'],[0,'','Kümmel, Salz und Pfeffer','W']],
 s:['Zucker im Öl hell karamellisieren, Zwiebel dazu.','Kraut in kleine Quadrate schneiden und ca. 15 Minuten weich dünsten. Mit Kümmel würzen.','Faschiertes extra krümelig braten.','Nudeln kochen und alles vermischen. Ordentlich pfeffern.'],
 tip:'Klassiker für wenig Geld.'},
@@ -314,10 +356,10 @@ tip:'Klassiker für wenig Geld.'},
 zu:[[4,'Stk','Paprika','G'],[300,'g','Putenfaschiertes','F'],[60,'g','Reis','V'],[1,'Stk','Zwiebel','G'],[500,'ml','Passierte Tomaten','V'],[400,'g','Erdäpfel','G'],[0,'','Paprikapulver, Majoran, Prise Zucker, Salz','W']],
 s:['Reis halb gar kochen.','Faschiertes mit Reis, Zwiebel und Gewürzen mischen.','Paprika aushöhlen und füllen.','In der Paradeissauce zugedeckt 35 Minuten sanft köcheln. Dazu Erdäpfel.'],
 tip:'Füllung reicht auch für Zucchini.'},
-{id:'frikassee',n:'Hühnerfrikassee mit Reis',t:'H',z:35,d:['herd'],k:'huhn',c:2,nb:1,
+{id:'frikassee',n:'Eingemachtes Hendl mit Reis',t:'H',z:35,d:['herd'],k:'huhn',c:2,nb:1,
 zu:[[300,'g','Hühnerbrust','F'],[2,'Stk','Karotten','G'],[100,'g','Erbsen tiefgekühlt','G'],[150,'g','Champignons','G'],[300,'ml','Hühnersuppe','V'],[100,'ml','Schlagobers','K',{l:'laktosefreies Schlagobers'}],[1,'EL','Kartoffelstärke','V'],[150,'g','Reis','V'],[0,'','Zitrone, Petersilie, Salz','W']],
 s:['Reis kochen.','Huhn in Würfel schneiden und in der Suppe 10 Minuten ziehen lassen.','Karotten, Champignons und Erbsen dazu und 8 Minuten mitgaren.','Obers mit Stärke verrühren, einrühren, kurz aufkochen. Mit Zitrone und Petersilie abschmecken.']},
-{id:'geschnetzeltes',n:'Putengeschnetzeltes mit Champignons',t:'H',z:25,d:['herd'],k:'pute',c:2,
+{id:'geschnetzeltes',solo:1,dk:1,n:'Putengeschnetzeltes mit Champignons',t:'H',z:25,d:['herd'],k:'pute',c:2,
 zu:[[300,'g','Putenbrust','F'],[250,'g','Champignons','G'],[1,'Stk','Zwiebel','G'],[100,'ml','Schlagobers','K',{l:'laktosefreies Schlagobers'}],[100,'ml','Rindsuppe','V'],[150,'g','Reis','V'],[1,'EL','Rapsöl','V'],[0,'','Petersilie, Salz und Pfeffer','W']],
 s:['Reis kochen.','Pute in Streifen schneiden und scharf anbraten, rausnehmen.','Zwiebel und Champignons anbraten.','Mit Suppe und Obers aufgießen, kurz einkochen, Fleisch wieder rein. Petersilie drüber.'],
 tip:'Schnelles Feierabendessen.'},
@@ -334,7 +376,7 @@ zu:[[300,'g','Putenbrust','F'],[1,'Stk','Zucchini','G'],[2,'Stk','Karotten','G']
 s:['Gemüse und Erdäpfel in gleich große Stücke schneiden, mit Öl, Knoblauch und Gewürzen mischen.','Garen, bis alles Farbe hat.','Pute in Streifen anbraten oder in den letzten 10 Minuten mitgaren.','Topfen mit Kräutern und Salz als Dip.'],
 v:{air:'Im Airfryer 200 Grad, ca. 20 Minuten, zwischendurch schütteln.',herd:'Am Blech im Backrohr 200 Grad, ca. 30 Minuten.'},
 tip:'Alles auf ein Blech, kaum Abwasch.'},
-{id:'zucchinipuffer',n:'Zucchinipuffer mit Kräutertopfen',t:'H',z:25,d:['herd','air'],k:'veggie',c:1,
+{id:'zucchinipuffer',solo:1,dk:1,n:'Zucchinipuffer mit Kräutertopfen',t:'H',z:25,d:['herd','air'],k:'veggie',c:1,
 zu:[[2,'Stk','Zucchini','G'],[2,'Stk','Eier','K'],[4,'EL','Dinkelmehl','V',{g:'glutenfreies Mehl'}],[1,'Stk','Knoblauchzehe','G'],[250,'g','Topfen','K',{l:'laktosefreier Topfen'}],[3,'EL','Rapsöl','V'],[0,'','Schnittlauch, Salz und Pfeffer','W']],
 s:['Zucchini grob raspeln, salzen, 10 Minuten ziehen lassen und kräftig ausdrücken.','Mit Ei, Mehl und Knoblauch mischen.','Kleine Puffer goldbraun braten.','Topfen mit Schnittlauch, Salz und Pfeffer verrühren.'],
 v:{air:'Puffer auf Backpapier, mit Öl besprühen, Airfryer 190 Grad, 12 Minuten, einmal wenden.'}},
@@ -349,7 +391,7 @@ s:['Erdäpfel kochen.','Kohlrabi in Stifte schneiden und in wenig Salzwasser 8 M
 zu:[[800,'g','Hokkaido Kürbis','G'],[1,'Stk','Zwiebel','G'],[150,'g','Erdäpfel','G'],[700,'ml','Gemüsesuppe','V'],[100,'ml','Schlagobers','K',{l:'Kokosmilch'}],[1,'EL','Kürbiskernöl','V'],[2,'EL','Kürbiskerne','V'],[0,'','Ingwer, Muskat, Salz','W']],
 s:['Zwiebel anschwitzen. Kürbis mit Schale und Erdäpfel würfeln und dazu.','Mit Suppe aufgießen und 20 Minuten weich kochen.','Obers dazu und fein pürieren. Mit Ingwer, Muskat und Salz abschmecken.','Mit Kernöl und Kürbiskernen servieren.'],
 tip:'Für mehr Eiweiß ein paar Putenstreifen anbraten und drauflegen.'},
-{id:'linsen',n:'Linseneintopf mit Karotten',t:'H',z:40,d:['herd'],k:'veggie',c:1,nb:1,
+{id:'linsen',no0:1,n:'Linseneintopf mit Karotten',t:'H',z:40,d:['herd'],k:'veggie',c:1,nb:1,
 zu:[[150,'g','Linsen braun','V'],[2,'Stk','Karotten','G'],[1,'Stk','Zwiebel','G'],[300,'g','Erdäpfel','G'],[800,'ml','Gemüsesuppe','V'],[1,'EL','Apfelessig','V'],[1,'EL','Rapsöl','V'],[0,'','Lorbeer, Majoran, Salz','W']],
 s:['Zwiebel im Öl anschwitzen.','Linsen, Karotten und Erdäpfel würfelig dazu, mit Suppe aufgießen.','Mit Lorbeer 30 Minuten köcheln.','Mit Essig und Majoran abschmecken.'],
 tip:'Ab und zu, nicht jede Woche. Mit Spiegelei für mehr Eiweiß.'},
@@ -357,14 +399,14 @@ tip:'Ab und zu, nicht jede Woche. Mit Spiegelei für mehr Eiweiß.'},
 zu:[[500,'g','Hirschragout','F'],[2,'Stk','Zwiebel','G'],[2,'Stk','Karotten','G'],[100,'g','Sellerie','G'],[200,'ml','Rotwein oder Traubensaft','V'],[3,'EL','Preiselbeeren','V'],[600,'g','Erdäpfel mehlig','G'],[100,'ml','Milch','K',{m:1,l:'laktosefreie Milch',o:'Kochwasser und Olivenöl'}],[2,'EL','Rapsöl','V'],[0,'','Wacholder, Lorbeer, Salz und Pfeffer','W']],
 s:['Fleisch scharf anbraten, rausnehmen.','Zwiebel, Karotten und Sellerie anrösten, mit Wein ablöschen.','Fleisch, Gewürze und etwas Wasser dazu und zugedeckt 1,5 Stunden schmoren.','Erdäpfel kochen und mit Milch zu Püree stampfen. Preiselbeeren dazu.'],
 tip:'Herbstessen für einen gemütlichen Sonntag.'},
-{id:'rindpfanne',n:'Rindfleisch Gemüsepfanne mit Reis',t:'H',z:20,d:['herd'],k:'rind',c:2,
+{id:'rindpfanne',solo:1,n:'Rindfleisch Gemüsepfanne mit Reis',t:'H',z:20,d:['herd'],k:'rind',c:2,
 zu:[[300,'g','Rinderhüfte','F'],[250,'g','Brokkoli','G'],[2,'Stk','Karotten','G'],[1,'Stk','Zucchini','G'],[3,'EL','Sojasauce','V',{g:'Tamari (glutenfreie Sojasauce)'}],[1,'Stk','Knoblauchzehe','G'],[150,'g','Reis','V'],[2,'EL','Rapsöl','V'],[0,'','Ingwer','W']],
 s:['Reis kochen.','Rind in dünne Streifen schneiden und portionsweise scharf anbraten.','Gemüse klein schneiden und bissfest braten.','Fleisch zurück, mit Sojasauce, Knoblauch und Ingwer würzen.'],
 tip:'In 20 Minuten am Tisch.'},
 {id:'curry',n:'Hühnercurry mit Zucchini',t:'H',z:30,d:['herd'],k:'huhn',c:2,nb:1,
 zu:[[300,'g','Hühnerbrust','F'],[1,'Stk','Zucchini','G'],[1,'Stk','Paprika','G'],[1,'Stk','Zwiebel','G'],[400,'ml','Kokosmilch','V'],[2,'TL','Currypulver','W'],[150,'g','Reis','V'],[1,'EL','Rapsöl','V'],[0,'','Ingwer, Salz','W']],
 s:['Reis kochen.','Zwiebel und Huhn anbraten, Curry kurz mitrösten.','Gemüse dazu, mit Kokosmilch aufgießen.','10 Minuten köcheln, mit Ingwer und Salz abschmecken.']},
-{id:'seelachs',n:'Seelachs mit Erdäpfelspalten und Gurkendip',t:'H',z:25,d:['air','herd'],k:'fisch',c:1,
+{id:'seelachs',solo:1,dk:1,dkt:'Seelachs tiefgekühlt, einzeln verpackt. Einfach ein Filet rausnehmen.',n:'Seelachs mit Erdäpfelspalten und Gurkendip',t:'H',z:25,d:['air','herd'],k:'fisch',c:1,
 zu:[[300,'g','Seelachsfilet tiefgekühlt','F'],[600,'g','Erdäpfel','G'],[2,'EL','Olivenöl','V'],[1,'Stk','Zitrone','G'],[125,'g','Topfen','K',{l:'laktosefreier Topfen'}],[1,'Stk','Gurke','G'],[0,'','Paprikapulver, Dill, Salz','W']],
 s:['Erdäpfel in Spalten schneiden, mit Öl, Paprika und Salz mischen und knusprig garen.','Fisch auftauen, salzen, mit Zitrone beträufeln und garen.','Gurke raspeln, mit Topfen, Dill und Salz verrühren.'],
 v:{air:'Spalten im Airfryer 200 Grad, 18 Minuten. Fisch in den letzten 10 Minuten bei 180 Grad dazu.',herd:'Spalten am Blech 220 Grad, 30 Minuten. Fisch die letzten 12 Minuten mit aufs Blech.'},
@@ -373,7 +415,7 @@ tip:'Günstiger Fisch für jeden Tag.'},
 zu:[[2,'Stk','Zucchini','G'],[250,'g','Rindsfaschiertes','F'],[1,'Stk','Zwiebel','G'],[50,'g','Reis','V'],[40,'g','Bergkäse gerieben','K',{l:'laktosefreier Bergkäse'}],[0,'','Paprikapulver, Petersilie, Salz','W']],
 s:['Reis kochen.','Zucchini längs halbieren und aushöhlen. Fruchtfleisch hacken.','Faschiertes mit Zwiebel und Zucchinifleisch anbraten, Reis und Gewürze dazu.','In die Zucchini füllen, Käse drauf und garen.'],
 v:{air:'Airfryer 180 Grad, 15 bis 18 Minuten.',herd:'Backrohr 200 Grad, ca. 20 Minuten.'}},
-{id:'hendlkeulen',n:'Hendlhaxerl mit Wurzelgemüse',t:'H',z:40,d:['air','herd'],k:'huhn',c:1,nb:1,
+{id:'hendlkeulen',dk:1,n:'Hendlhaxerl mit Wurzelgemüse',t:'H',z:40,d:['air','herd'],k:'huhn',c:1,nb:1,
 zu:[[4,'Stk','Hühnerkeulen','F'],[3,'Stk','Karotten','G'],[400,'g','Erdäpfel','G'],[1,'Stk','Zwiebel','G'],[2,'EL','Olivenöl','V'],[0,'','Paprikapulver, Rosmarin, Salz','W']],
 s:['Keulen mit Öl, Paprika und Salz einreiben.','Gemüse und Erdäpfel grob schneiden, würzen.','Alles knusprig garen.'],
 v:{air:'Airfryer 190 Grad, ca. 30 Minuten, nach der Hälfte wenden.',herd:'Backrohr 200 Grad, ca. 40 Minuten.'},
@@ -386,14 +428,57 @@ zu:[[200,'g','Rindfleisch gekocht (Reste vom Tafelspitz oder Rinderhüfte)','F']
 s:['Nudeln kochen. Erdäpfel kochen, falls keine vom Vortag da sind.','Zwiebel im Öl anrösten, Erdäpfel in Scheiben dazu und knusprig braten.','Fleisch würfeln und mitbraten, Nudeln dazu.','Mit Majoran, Paprika und Petersilie würzen. Dazu Essiggurkerl.'],
 tip:'Restlküche vom Feinsten. Perfekt nach dem Tafelspitz.'},
 
+/* SCHNELL FÜR 1 PERSON, DISKONTER */
+{id:'joghurtbanane',solo:1,dk:1,n:'Joghurt mit Haferflocken und Banane',t:'F',z:3,d:[],k:'veggie',c:1,
+zu:[[300,'g','Naturjoghurt','K',{l:'laktosefreies Joghurt'}],[60,'g','Haferflocken','V',{g:'glutenfreie Haferflocken'}],[1,'Stk','Banane','G'],[20,'g','Walnüsse','V']],
+s:['Joghurt in eine Schüssel.','Haferflocken und Banane in Scheiben drauf.','Nüsse drüber, fertig.'],
+dkt:'Naturjoghurt im großen Becher ist günstiger als kleine Becher und hält ein paar Tage.'},
+{id:'putengemuese',solo:1,dk:1,n:'Putenpfanne mit Pfannengemüse und Reis',t:'H',z:15,d:['herd'],k:'pute',c:1,
+zu:[[300,'g','Putenbrust','F'],[500,'g','Pfannengemüse tiefgekühlt ohne Mais','G'],[150,'g','Reis','V'],[1,'EL','Rapsöl','V'],[2,'EL','Sojasauce','V',{g:'Tamari (glutenfreie Sojasauce)'}],[0,'','Paprikapulver, Salz und Pfeffer','W']],
+s:['Reis kochen.','Pute in Streifen schneiden, würzen und im Öl scharf anbraten.','Tiefgekühltes Gemüse direkt dazu und 6 bis 8 Minuten mitbraten.','Mit Sojasauce abschmecken.'],
+dkt:'Pfannengemüse tiefgekühlt gibt es immer. Schau auf die Packung, dass kein Mais drin ist. Putenbrust im Kühlregal, der Rest kommt in den Tiefkühler.',
+tip:'Die halbe Packung Gemüse reicht für eine Person. Rest bleibt im Tiefkühler.'},
+{id:'lachsair',solo:1,dk:1,n:'Lachs aus dem Airfryer mit Brokkoli und Reis',t:'H',z:20,d:['air','herd'],k:'fisch',c:2,
+zu:[[250,'g','Lachsfilet tiefgekühlt','F'],[400,'g','Brokkoli tiefgekühlt','G'],[150,'g','Reis','V'],[1,'EL','Olivenöl','V'],[1,'Stk','Zitrone','G'],[0,'','Dill, Salz und Pfeffer','W']],
+s:['Reis kochen.','Lachs am Vorabend in den Kühlschrank zum Auftauen legen, salzen und mit Zitrone beträufeln.','Brokkoli mit Öl und Salz mischen.','Lachs und Brokkoli garen.'],
+v:{air:'Airfryer 180 Grad, 12 Minuten, Lachs und Brokkoli zusammen.',herd:'Lachs in der Pfanne 4 Minuten auf der Hautseite, wenden, 2 Minuten. Brokkoli in Salzwasser 5 Minuten.'},
+dkt:'Lachs und Brokkoli tiefgekühlt, einzeln verpackt. Ideal wenn du allein isst.'},
+{id:'bolo',solo:1,dk:1,nb:1,n:'Schnelle Rindsbolognese mit Nudeln',t:'H',z:20,d:['herd'],k:'rind',c:1,
+zu:[[250,'g','Rindsfaschiertes','F'],[1,'Stk','Zwiebel','G'],[1,'Stk','Karotten','G'],[500,'ml','Passierte Tomaten','V'],[200,'g','Dinkelnudeln','V',{g:'glutenfreie Nudeln'}],[1,'EL','Olivenöl','V'],[0,'','Oregano, Prise Zucker, Salz und Pfeffer','W']],
+s:['Nudeln kochen.','Zwiebel und Karotte fein reiben oder hacken und im Öl anbraten.','Faschiertes dazu und krümelig braten.','Tomaten und Gewürze dazu und 10 Minuten köcheln.'],
+dkt:'Glutenfreie Nudeln und Dinkelnudeln stehen meist bei den normalen Nudeln oder im Regal mit den Bio Produkten.',
+tip:'Die halbe Sauce einfrieren, dann hast du nächste Woche ein Essen in 10 Minuten.'},
+{id:'bauernomelett',solo:1,dk:1,n:'Bauernomelett mit Erdäpfeln und Schinken',t:'H',z:15,d:['herd'],k:'ei',c:1,kl:1,
+zu:[[4,'Stk','Eier','K'],[300,'g','Erdäpfel gekocht vom Vortag','G'],[80,'g','Putenschinken','F'],[1,'Stk','Zwiebel','G'],[1,'EL','Rapsöl','V'],[0,'','Schnittlauch, Salz und Pfeffer','W']],
+s:['Erdäpfel in Scheiben schneiden und mit der Zwiebel im Öl knusprig braten.','Putenschinken in Streifen dazu.','Eier verquirlen, salzen, drübergießen und zugedeckt stocken lassen.','Schnittlauch drüber, dazu ein Salat.'],
+dkt:'Putenschinken statt normalem Schinken, der ist meistens aus Schwein.',
+tip:'Restlessen. Koch Erdäpfel immer gleich doppelt.'},
+{id:'thunfischreis',solo:1,dk:1,n:'Thunfisch Reissalat mit Ei',t:'H',z:15,d:['herd'],k:'fisch',c:1,
+zu:[[150,'g','Reis','V'],[2,'Stk','Thunfisch in eigenem Saft (Dose)','F'],[2,'Stk','Eier','K'],[1,'Stk','Gurke','G'],[1,'Stk','Paprika','G'],[2,'EL','Olivenöl','V'],[2,'EL','Apfelessig','V'],[0,'','Schnittlauch, Salz und Pfeffer','W']],
+s:['Reis kochen und auskühlen lassen.','Eier 9 Minuten kochen.','Gurke und Paprika würfeln.','Alles mit Thunfisch, Öl und Essig mischen.'],
+dkt:'Thunfisch im eigenen Saft statt in Öl. Hält ewig im Vorratsschrank.',
+tip:'Hält 2 Tage im Kühlschrank. Perfekt für die Box ins Büro.'},
+{id:'ofenerdaepfel',solo:1,dk:1,n:'Ofenerdäpfel mit Kräutertopfen und Ei',t:'H',z:25,d:['air','herd'],k:'ei',c:1,
+zu:[[600,'g','Erdäpfel','G'],[250,'g','Topfen','K',{l:'laktosefreier Topfen'}],[2,'Stk','Eier','K'],[1,'Stk','Knoblauchzehe','G'],[1,'EL','Olivenöl','V'],[0,'','Schnittlauch, Kümmel, Salz','W']],
+s:['Erdäpfel halbieren, mit Öl, Kümmel und Salz einreiben.','Garen, bis sie weich und knusprig sind.','Topfen mit Knoblauch, Schnittlauch und Salz verrühren.','Dazu Spiegeleier oder hartgekochte Eier.'],
+v:{air:'Airfryer 200 Grad, ca. 20 Minuten.',herd:'Backrohr 220 Grad, ca. 30 Minuten.'},
+dkt:'Erdäpfel im großen Sack sind am günstigsten und halten kühl und dunkel lang.'},
+{id:'huehnerreis',solo:1,dk:1,nb:1,n:'Hendl Reis Pfanne mit Erbsen und Ei',t:'H',z:15,d:['herd'],k:'huhn',c:1,
+zu:[[250,'g','Hühnerbrust','F'],[150,'g','Reis gekocht vom Vortag','V'],[150,'g','Erbsen tiefgekühlt','G'],[2,'Stk','Karotten','G'],[2,'Stk','Eier','K'],[1,'EL','Rapsöl','V'],[2,'EL','Sojasauce','V',{g:'Tamari (glutenfreie Sojasauce)'}]],
+s:['Hendl würfeln und im Öl anbraten.','Karotten klein würfeln, mit den Erbsen dazu und 4 Minuten braten.','Reis dazu und knusprig braten.','Eier drüber, kurz verrühren, mit Sojasauce abschmecken.'],
+dkt:'Gekochter Reis vom Vortag funktioniert am besten. Hühnerbrust gibt es auch tiefgekühlt.'},
+{id:'huettenkaese',solo:1,dk:1,n:'Hüttenkäse mit Gurke und Radieschen',t:'S',z:3,d:[],k:'veggie',c:1,
+zu:[[200,'g','Hüttenkäse','K',{l:'laktosefreier Hüttenkäse'}],[1,'Stk','Gurke','G'],[1,'Bund','Radieschen','G'],[0,'','Schnittlauch, Salz und Pfeffer','W']],
+s:['Gemüse klein schneiden.','Mit Hüttenkäse mischen und würzen.']},
+
 /* SNACKS */
-{id:'eiersticks',n:'Gekochte Eier mit Gemüsesticks',t:'S',z:10,d:['herd','dampf'],k:'ei',c:1,
+{id:'eiersticks',solo:1,dk:1,n:'Gekochte Eier mit Gemüsesticks',t:'S',z:10,d:['herd','dampf'],k:'ei',c:1,
 zu:[[4,'Stk','Eier','K'],[2,'Stk','Karotten','G'],[1,'Stk','Kohlrabi','G'],[1,'Stk','Gurke','G'],[0,'','Salz','W']],
 s:['Eier 9 Minuten kochen oder dämpfen.','Gemüse in Sticks schneiden.','Gut für die Box ins Büro.']},
-{id:'kraeutertopfen',n:'Kräutertopfen mit Gemüse',t:'S',z:5,d:[],k:'veggie',c:1,
+{id:'kraeutertopfen',solo:1,dk:1,n:'Kräutertopfen mit Gemüse',t:'S',z:5,d:[],k:'veggie',c:1,
 zu:[[250,'g','Topfen','K',{l:'laktosefreier Topfen'}],[1,'Stk','Paprika','G'],[2,'Stk','Karotten','G'],[1,'Stk','Knoblauchzehe','G'],[0,'','Schnittlauch, Petersilie, Salz','W']],
 s:['Topfen mit Kräutern, Knoblauch und Salz verrühren.','Gemüse in Sticks schneiden und eintunken.']},
-{id:'apfelmus',n:'Apfel mit Mandelmus',t:'S',z:2,d:[],k:'veggie',c:1,
+{id:'apfelmus',solo:1,dk:1,n:'Apfel mit Mandelmus',t:'S',z:2,d:[],k:'veggie',c:1,
 zu:[[2,'Stk','Apfel','G'],[2,'EL','Mandelmus','V']],
 s:['Apfel in Spalten schneiden.','Mit Mandelmus essen.']},
 {id:'bratapfel',n:'Bratapfel mit Walnüssen',t:'S',z:20,d:['air','herd'],k:'veggie',c:1,
@@ -403,7 +488,7 @@ v:{air:'Airfryer 170 Grad, ca. 15 Minuten.',herd:'Backrohr 180 Grad, ca. 25 Minu
 tip:'Herbst im Mund.'}
 ];
 
-const KEY='waskochmaheut_v1';
+const KEY='waskochenwirheute_v1';
 const MEAT=['pute','huhn','rind','fisch','wild'];
 const KAT={pute:'Pute',huhn:'Huhn',rind:'Rind',fisch:'Fisch',wild:'Wild',ei:'Ei',veggie:'Gemüse'};
 const GER={herd:'Herd',air:'Airfryer',dampf:'Dampfgarer'};
@@ -418,11 +503,11 @@ const byId=Object.fromEntries(R.map(r=>[r.id,r]));
 
 function defaults(){return{
  set:{pers:2,blut:'aus',gf:false,lf:false,ger:{herd:true,air:true,dampf:false},zWT:30,zWE:120,guenstig:false,fokus:'ausgewogen',klassik:true,
-  fleisch:{pute:true,huhn:true,rind:true,fisch:true,wild:true},slots:{F:true,M:true,A:true,S:false},reste:false},
+  fleisch:{pute:true,huhn:true,rind:true,fisch:true,wild:true},slots:{F:true,M:true,A:true,S:false},reste:false,disk:false},
  body:{name:'',kg:'',ziel:'halten',tz:'abends',tage:['buero','buero','buero','buero','buero','frei','frei']},
- plan:null,check:{},dirty:false}}
+ plan:null,check:{},dirty:false,auswahl:{},quelle:'plan'}}
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.set){const d=defaults();
- return{...d,...x,set:{...d.set,...x.set,ger:{...d.set.ger,...x.set.ger},fleisch:{...d.set.fleisch,...x.set.fleisch},slots:{...d.set.slots,...x.set.slots}},body:{...d.body,...x.body}}}}catch(e){}return null}
+ return{...d,...x,set:{...d.set,...x.set,ger:{...d.set.ger,...x.set.ger},fleisch:{...d.set.fleisch,...x.set.fleisch},slots:{...d.set.slots,...x.set.slots}},body:{...d.body,...x.body},auswahl:x.auswahl||{},quelle:x.quelle||'plan'}}}catch(e){}return null}
 let S=load()||defaults();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const $=s=>document.querySelector(s);
@@ -430,20 +515,42 @@ const $$=s=>[...document.querySelectorAll(s)];
 
 function bruch(x){const w=Math.floor(x+1e-9),h=(x-w)>0.25;return((w?w:'')+(h?'½':''))||'0'}
 function gfAn(){return S.set.gf||S.set.blut==='0'}
+const O_MAP={'Topfen':'Mandeljoghurt natur','Naturjoghurt':'Mandeljoghurt natur','Hüttenkäse':'Mandeljoghurt natur','Bergkäse gerieben':null,
+ 'Butter':'Olivenöl','Schlagobers':'Reis Cuisine (pflanzliche Kochcreme)','Milch':'Reisdrink',
+ 'Erdäpfel':'Süßkartoffeln','Erdäpfel festkochend':'Süßkartoffeln','Erdäpfel mehlig':'Süßkartoffeln','Erdäpfel gekocht vom Vortag':'Süßkartoffeln gekocht vom Vortag','Kartoffelstärke':'Reismehl',
+ 'Champignons':'Zucchini','Haferflocken':'Hirseflocken','Beeren tiefgekühlt':'Heidelbeeren tiefgekühlt',
+ 'Dinkelmehl':'Reismehl','Dinkelbrösel':'Reisbrösel ohne Mais','Dinkelfleckerl':'Reisnudeln','Dinkelnudeln':'Reisnudeln',
+ 'Weißweinessig':'Zitronensaft','Apfelessig':'Zitronensaft','Sojasauce':'Tamari (glutenfreie Sojasauce)'};
+const O_GEW=['Pfeffer','Zimt','Muskat'];
+const O_TXT=[[/Öl, Butter/g,'Öl'],[/Erdäpfeln/g,'Süßkartoffeln'],[/erdäpfeln/g,'süßkartoffeln'],[/Erdäpfel/g,'Süßkartoffel'],[/erdäpfel/g,'süßkartoffel'],
+ [/Kräutertopfen/g,'Kräuterdip'],[/Hüttenkäse/g,'Mandeljoghurt'],[/Naturjoghurt|Joghurt/g,'Mandeljoghurt'],[/Topfen/g,'Mandeljoghurt'],
+ [/Champignons/g,'Zucchini'],[/Haferflocken/g,'Hirseflocken'],[/Schlagobers|Obers/g,'Kochcreme'],[/warmer Milch/g,'warmem Reisdrink'],[/Milch/g,'Reisdrink'],
+ [/ und dem Käse/g,''],[/, Käse drauf/g,''],[/, Käse drauf und garen/g,' und garen'],[/ Ordentlich pfeffern\./g,''],[/in Butter/g,'in Olivenöl'],[/Butter/g,'Olivenöl'],
+ [/Essig/g,'Zitronensaft'],[/ und Zimt/g,''],[/, Zimt/g,''],[/Zimt, /g,''],[/ mit Muskat und/g,' mit'],[/Muskat und /g,''],[/, Muskat/g,''],[/ und Pfeffer/g,''],[/Mehl/g,'Reismehl'],[/Bröseln/g,'Reisbröseln']];
+function strengO(){return S.set.blut==='0'}
+function tx(t){if(!t||!strengO())return t;O_TXT.forEach(([a,b])=>t=t.replace(a,b));return t.replace(/Reisreismehl/g,'Reismehl')}
+function rn(r){return tx(r.n)}
 function zName(z){let n=z[2],a=z[4]||{},sw=false;
  if(gfAn()&&a.g){n=a.g;sw=true}
- if(S.set.lf&&a.l){n=a.l;sw=true}
- if(S.set.blut==='0'&&a.m){n=a.o||'Reisdrink';sw=true}
+ if((S.set.lf||strengO())&&a.l&&!strengO()){n=a.l;sw=true}
+ if(strengO()){
+  if(z[3]==='W'){const t=z[2].split(/, | und /).filter(x=>!O_GEW.some(g=>x.includes(g)));n=t.join(', ');if(!n)return{n:null,sw:true};return{n,sw:false}}
+  if(a.m){n='Reisdrink';sw=true}
+  else if(z[2] in O_MAP){n=O_MAP[z[2]];sw=true;if(n===null)return{n:null,sw}}
+  else if(a.l&&/Ghee|Kokosmilch/.test(a.l)){n=a.l==='Ghee'?'Olivenöl':a.l;sw=true}
+ }
  return{n,sw}}
 function fmt(m,u){if(!m)return'';
  if(u==='g'||u==='ml'){const x=m>=100?Math.round(m/10)*10:Math.round(m);return x+' '+u}
  if(u==='Stk')return bruch(Math.ceil(m*2-1e-9)/2)+' Stk';
  return bruch(Math.round(m*2)/2)+' '+u}
 
+function fmtK(m,u){return(u==='Stk'||u==='Bund')?Math.ceil(m-1e-9)+' '+u:fmt(m,u)}
 /* FILTER */
 function passt(r,o={}){const s=S.set;
  if(r.d.length&&!r.d.some(g=>s.ger[g]))return false;
  if(s.blut==='B'&&r.nb)return false;
+ if(s.blut==='0'&&r.no0)return false;
  if(MEAT.includes(r.k)&&!s.fleisch[r.k])return false;
  if(!o.ohneKosten&&s.guenstig&&r.c>2)return false;
  if(o.maxZ!=null&&r.z>o.maxZ)return false;
@@ -451,7 +558,7 @@ function passt(r,o={}){const s=S.set;
  return true}
 function gewicht(r,we){const s=S.set;let w=1;const m=MEAT.includes(r.k);
  if(s.fokus==='fleisch')w=m?3:1;else if(s.fokus==='gemuese')w=m?1:3;
- if(s.klassik&&r.kl)w*=2;if(s.guenstig&&r.c===1)w*=1.5;if(we&&r.we)w*=2;return w}
+ if(s.klassik&&r.kl)w*=2;if(s.guenstig&&r.c===1)w*=1.5;if(we&&r.we)w*=2;if(+s.pers===1&&r.solo)w*=2.5;if(s.disk)w*=r.dk?3:.4;return w}
 function kandidaten(sl,d){const s=S.set,we=d>=5,maxZ=we?+s.zWE:+s.zWT,typ=sl==='F'?'F':sl==='S'?'S':'H';
  const b=R.filter(r=>r.t===typ);
  let c=b.filter(r=>passt(r,{maxZ,werktag:!we}));
@@ -462,17 +569,18 @@ function kandidaten(sl,d){const s=S.set,we=d>=5,maxZ=we?+s.zWE:+s.zWT,typ=sl==='
 function ziehe(liste,used,prevK,we){
  let c=liste.filter(r=>!used.has(r.id)&&r.k!==prevK);
  if(!c.length)c=liste.filter(r=>!used.has(r.id));
- if(!c.length)c=liste.slice();
+ if(!c.length&&liste.length){const min=Math.min(...liste.map(r=>ZAEHL[r.id]||0));c=liste.filter(r=>(ZAEHL[r.id]||0)===min&&r.k!==prevK);if(!c.length)c=liste.filter(r=>(ZAEHL[r.id]||0)===min)}
  if(!c.length)return null;
  const tot=c.reduce((a,r)=>a+gewicht(r,we),0);let x=Math.random()*tot;
  for(const r of c){x-=gewicht(r,we);if(x<=0)return r}return c[c.length-1]}
 
-function erstellePlan(){const used=new Set(),plan=[];let prevK=null;
+let ZAEHL={};
+function erstellePlan(){const used=new Set(),plan=[];let prevK=null;ZAEHL={};
  for(let d=0;d<7;d++){const day={};
   for(const sl of['F','M','A','S']){
    if(sl==='M'&&S.set.reste&&d>=1&&d<=4&&plan[d-1].A){day.M=plan[d-1].A;day.Mr=true;continue}
    const r=ziehe(kandidaten(sl,d),used,(sl==='M'||sl==='A')?prevK:null,d>=5);
-   if(r){day[sl]=r.id;used.add(r.id);if(sl==='M'||sl==='A')prevK=r.k}}
+   if(r){day[sl]=r.id;used.add(r.id);ZAEHL[r.id]=(ZAEHL[r.id]||0)+1;if(sl==='M'||sl==='A')prevK=r.k}}
   plan.push(day)}
  S.plan=plan;S.check={};S.dirty=false;save()}
 function tausche(d,sl){const used=new Set();S.plan.forEach(x=>['F','M','A','S'].forEach(k=>x[k]&&used.add(x[k])));
@@ -495,11 +603,11 @@ function tagTipp(typ){const b=S.body;
  if(typ==='koerper')return'Du brauchst heute mehr Energie. Ruhig eine Hand Kohlenhydrate mehr und ein Snack mit Eiweiß.';
  return'Zeit zum Kochen. Perfekt für einen Klassiker oder um für die Woche vorzukochen.'}
 function handHTML(typ){const h=hand(typ);
- return`<div class="hand">
+ return tx(`<div class="hand">
  <div><b>🖐️ ${bruch(h.p)} Handfläche${h.p>1?'n':''}</b><small>Eiweiß, Fleisch, Fisch, Eier, Topfen</small></div>
  <div><b>✊ ${h.gem} Fäuste</b><small>Gemüse</small></div>
  <div><b>🤲 ${bruch(h.kh)} Hand voll</b><small>Kohlenhydrate, Erdäpfel, Reis, Nudeln</small></div>
- <div><b>👍 ${bruch(h.fett)} Daumen</b><small>Fett, Öl, Butter, Nüsse</small></div></div>`}
+ <div><b>👍 ${bruch(h.fett)} Daumen</b><small>Fett, Öl, Butter, Nüsse</small></div></div>`)}
 function heuteIdx(){return(new Date().getDay()+6)%7}
 
 /* RENDER BEDARF */
@@ -515,10 +623,10 @@ function renderKueche(){const s=S.set;
  $('#pers').value=s.pers;$('#blut').value=s.blut;$('#gf').checked=s.gf;$('#lf').checked=s.lf;
  $$('[data-ger]').forEach(e=>e.checked=!!s.ger[e.dataset.ger]);
  $('#zWT').value=s.zWT;$('#zWE').value=s.zWE;$('#fokus').value=s.fokus;
- $('#guenstig').checked=s.guenstig;$('#klassik').checked=s.klassik;$('#reste').checked=s.reste;
+ $('#guenstig').checked=s.guenstig;$('#klassik').checked=s.klassik;$('#reste').checked=s.reste;$('#disk').checked=s.disk;
  $$('[data-slot]').forEach(e=>e.checked=!!s.slots[e.dataset.slot]);
  $('#fleisch').innerHTML=MEAT.map(k=>{const aus=s.blut==='B'&&k==='huhn';return`<label class="chip"><input type="checkbox" data-fl="${k}" ${s.fleisch[k]&&!aus?'checked':''} ${aus?'disabled':''}><span>${KAT[k]}${aus?' (nicht bei B)':''}</span></label>`}).join('');
- $('#blutInfo').textContent=s.blut==='0'?'Blutgruppe 0. Getreide wird automatisch glutenfrei getauscht, pure Milch wird ersetzt, kein Mais, kein Schwein.':s.blut==='B'?'Blutgruppe B. Ohne Huhn, Tomaten, Linsen und Mais. Kein Schwein.':'Schweinefleisch und Mais kommen in keinem Rezept vor.'}
+ $('#blutInfo').textContent=s.blut==='0'?'Blutgruppe 0 nach D\'Adamo. Ohne Milchprodukte, ohne Gluten, Mais, Schwein, Erdäpfel, Champignons, Kraut, Linsen und Haferflocken. Der Rechner tauscht automatisch, zum Beispiel Süßkartoffel statt Erdäpfel, Reismehl statt Dinkel, Mandeljoghurt statt Topfen.':s.blut==='B'?'Blutgruppe B. Ohne Huhn, Tomaten, Linsen und Mais. Kein Schwein.':'Schweinefleisch und Mais kommen in keinem Rezept vor.'}
 
 /* RENDER PLAN */
 function renderPlan(){const s=S.set,el=$('#plan');$('#banner').classList.toggle('an',!!S.dirty);
@@ -530,63 +638,106 @@ function renderPlan(){const s=S.set,el=$('#plan');$('#banner').classList.toggle(
   ${slots.map(sl=>{const r=byId[day[sl]];
    if(!r)return`<div class="slot"><span class="sl">${SLOT[sl]}</span><div class="leer">Nichts Passendes gefunden. Stell bei 2 mehr Zeit oder Geräte ein.</div></div>`;
    const reste=sl==='M'&&day.Mr&&s.slots.A;
-   return`<div class="slot"><span class="sl">${SLOT[sl]}</span><button class="rz" data-open="${r.id}"><b>${reste?'🥡 Reste von gestern, ':''}${r.n}</b><small>${reste?'aufwärmen':r.z+' Min · '+geraeteText(r)}</small></button><button class="swap" data-swap="${d}|${sl}" aria-label="Anderes Gericht">↻</button></div>`}).join('')}
+   return`<div class="slot"><span class="sl">${SLOT[sl]}</span><button class="rz" data-open="${r.id}"><b>${reste?'🥡 Reste von gestern, ':''}${rn(r)}</b><small>${reste?'aufwärmen':r.z+' Min · '+geraeteText(r)}</small></button><button class="swap" data-swap="${d}|${sl}" aria-label="Anderes Gericht">↻</button></div>`}).join('')}
   </div>`}).join('')}
 function geraeteText(r){if(!r.d.length)return'ohne Kochen';const g=r.d.filter(x=>S.set.ger[x]);return(g.length?g:r.d).map(x=>GER[x]).join(' oder ')}
 
 /* EINKAUF */
-function einkaufDaten(){if(!S.plan)return{};const s=S.set,f=s.pers/2,map={};
+function eintraege(){const s=S.set,out=[];
+ if(S.quelle==='auswahl'){Object.entries(S.auswahl).forEach(([id,p])=>byId[id]&&out.push([id,p/2]));return out}
+ if(!S.plan)return out;const f=s.pers/2;
  S.plan.forEach((day,d)=>['F','M','A','S'].forEach(sl=>{
   if(!s.slots[sl]||!day[sl])return;
   if(sl==='M'&&day.Mr&&s.slots.A)return;
   let mult=f;
   if(sl==='A'&&s.slots.M&&S.plan[d+1]&&S.plan[d+1].Mr)mult*=2;
-  byId[day[sl]].zu.forEach(z=>{let{n}=zName(z);
-   if(SKIP.includes(n))return;
-   const namen=(z[3]==='W'&&!z[0])?n.replace(/^Prise /,'').split(/, | und /):[n];
-   namen.forEach(nm=>{nm=nm.trim();if(!nm)return;const key=nm+'|'+(z[0]?z[1]:'');
-    if(!map[key])map[key]={n:nm,u:z[1],m:0,g:z[3]};map[key].m+=z[0]*mult})})}));
+  out.push([day[sl],mult])}));return out}
+function einkaufDaten(){const map={};
+ eintraege().forEach(([id,mult])=>{
+  byId[id].zu.forEach(z=>{let{n}=zName(z);
+   if(!n||SKIP.includes(n))return;
+   const namen=(z[3]==='W'&&!z[0])?n.split(/, | und /).map(x=>x.replace(/^Prise /,'')):[n];
+   namen.forEach(nm=>{nm=nm.replace(/ gekocht vom Vortag/,'').trim();if(!nm)return;const key=nm+'|'+(z[0]?z[1]:'');
+    if(!map[key])map[key]={n:nm,u:z[1],m:0,g:z[3]};map[key].m+=z[0]*mult})})});
  Object.keys(map).forEach(k=>{const v=map[k];if(!v.m&&Object.values(map).some(o=>o!==v&&o.m&&o.n===v.n))delete map[k]});
  const gr={};Object.entries(map).forEach(([k,v])=>{(gr[v.g]=gr[v.g]||[]).push({k,...v})});
  Object.values(gr).forEach(a=>a.sort((x,y)=>x.n.localeCompare(y.n,'de')));return gr}
 function renderEinkauf(){const gr=einkaufDaten(),el=$('#einkauf');
- $('#einkaufInfo').textContent=S.plan?`Für ${S.set.pers} ${S.set.pers==1?'Person':'Personen'} und die ganze Woche. Hak ab, was du schon zuhause hast.`:'';
+ const n=Object.keys(S.auswahl).length;
+ $$('input[name=quelle]').forEach(e=>e.checked=e.value===S.quelle);
+ $('#qAus').textContent='Aus meinen Rezepten'+(n?' ('+n+')':'');
+ if(S.quelle==='auswahl'){
+  $('#auswahl').innerHTML=n?'<h3>Deine Rezepte</h3>'+Object.entries(S.auswahl).map(([id,p])=>`<div class="wahl"><span class="wn" data-open="${id}">${rn(byId[id])}</span><span class="wp"><button data-wp="${id}|-1" aria-label="weniger">−</button>${p} P.<button data-wp="${id}|1" aria-label="mehr">+</button></span><button data-weg="${id}" aria-label="Entfernen">×</button></div>`).join('')+'<div class="btns"><button class="btn zart" id="allesWeg">Auswahl leeren</button></div>'
+   :'<p class="hinweis">Noch keine Rezepte ausgewählt. Geh zu 5 Rezepte und tipp beim Gericht auf +. Oder öffne ein Rezept und tipp auf „Auf die Einkaufsliste“.</p>';
+  $('#einkaufInfo').textContent=n?'Hak ab, was du schon zuhause hast.':'';
+ }else{$('#auswahl').innerHTML='';$('#einkaufInfo').textContent=S.plan?`Für ${S.set.pers} ${S.set.pers==1?'Person':'Personen'} und die ganze Woche. Hak ab, was du schon zuhause hast.`:''}
+ renderKorb();
  el.innerHTML=Object.keys(GRUPPE).filter(g=>gr[g]).map(g=>`<h3>${GRUPPE[g]}</h3>`+gr[g].map(i=>{const ok=!!S.check[i.k];
-  return`<label class="item ${ok?'ok':''}"><input type="checkbox" data-chk="${esc(i.k)}" ${ok?'checked':''}><span>${i.m?'<b>'+fmt(i.m,i.u)+'</b> ':''}${esc(i.n)}</span></label>`}).join('')).join('')}
+  return`<label class="item ${ok?'ok':''}"><input type="checkbox" data-chk="${esc(i.k)}" ${ok?'checked':''}><span>${i.m?'<b>'+fmtK(i.m,i.u)+'</b> ':''}${esc(i.n)}</span></label>`}).join('')).join('')}
 function einkaufText(){const gr=einkaufDaten();let t='Einkaufsliste\n';
- Object.keys(GRUPPE).filter(g=>gr[g]).forEach(g=>{t+='\n'+GRUPPE[g]+'\n';gr[g].forEach(i=>{if(!S.check[i.k])t+='• '+(i.m?fmt(i.m,i.u)+' ':'')+i.n+'\n'})});return t}
+ Object.keys(GRUPPE).filter(g=>gr[g]).forEach(g=>{t+='\n'+GRUPPE[g]+'\n';gr[g].forEach(i=>{if(!S.check[i.k])t+='• '+(i.m?fmtK(i.m,i.u)+' ':'')+i.n+'\n'})});return t}
 
 /* REZEPTE */
 function renderRezepte(){const q=$('#suche').value.trim().toLowerCase(),typ=($('input[name=rt]:checked')||{}).value||'alle',nur=$('#nurPassend').checked;
- const l=R.filter(r=>(typ==='alle'||r.t===typ)&&(!nur||passt(r,{ohneKosten:!S.set.guenstig?true:false}))&&(!q||(r.n+' '+r.zu.map(z=>zName(z).n).join(' ')).toLowerCase().includes(q)));
- $('#rliste').innerHTML=l.length?l.map(r=>`<button class="rkarte" data-open="${r.id}"><b>${r.n}</b><small>${r.z>=60?bruch(r.z/60)+' Std':r.z+' Min'} · ${geraeteText(r)} · ${KAT[r.k]}</small><br>
- ${r.kl?'<span class="pill kl">Klassiker</span>':''}${r.c===1?'<span class="pill g">günstig</span>':''}${r.we?'<span class="pill we">Wochenende</span>':''}${r.t==='F'?'<span class="pill">Frühstück</span>':r.t==='S'?'<span class="pill">Snack</span>':''}</button>`).join(''):'<p class="hinweis">Nichts gefunden. Probier ein anderes Wort oder schalt den Filter aus.</p>'}
+ const l=R.filter(r=>(typ==='alle'||(typ==='solo'?r.solo:r.t===typ))&&(!nur||passt(r,{ohneKosten:!S.set.guenstig?true:false}))&&(!q||(rn(r)+' '+r.zu.map(z=>zName(z).n||'').join(' ')).toLowerCase().includes(q)));
+ $('#rliste').innerHTML=l.length?l.map(r=>`<div class="rrow"><button class="rkarte" data-open="${r.id}"><b>${rn(r)}</b><small>${r.z>=60?bruch(r.z/60)+' Std':r.z+' Min'} · ${geraeteText(r)} · ${KAT[r.k]}</small><br>
+ ${r.kl?'<span class="pill kl">Klassiker</span>':''}${r.c===1?'<span class="pill g">günstig</span>':''}${r.solo?'<span class="pill">1 Person</span>':''}${r.dk?'<span class="pill g">Diskonter</span>':''}${r.we?'<span class="pill we">Wochenende</span>':''}${r.t==='F'?'<span class="pill">Frühstück</span>':r.t==='S'?'<span class="pill">Snack</span>':''}</button><button class="add ${S.auswahl[r.id]?'drin':''}" data-add="${r.id}" aria-label="Auf die Einkaufsliste">${S.auswahl[r.id]?'✓':'+'}</button></div>`).join(''):'<p class="hinweis">Nichts gefunden. Probier ein anderes Wort oder schalt den Filter aus.</p>'}
 
 /* MODAL */
 let mR=null,mP=2;
-function oeffne(id,p){mR=byId[id];mP=p||S.set.pers;zeichneModal();$('#modal').classList.add('auf');document.body.style.overflow='hidden'}
-function zu(){$('#modal').classList.remove('auf');document.body.style.overflow=''}
+function oeffne(id,p){mR=byId[id];mP=p||S.set.pers;zeichneModal();$('#modal').classList.add('auf');document.body.style.overflow='hidden';renderKorb()}
+function zu(){$('#modal').classList.remove('auf');document.body.style.overflow='';renderKorb()}
 function zeichneModal(){const r=mR,f=mP/2,typ=S.body.tage[heuteIdx()];
  const v=r.v?Object.entries(r.v).filter(([g])=>S.set.ger[g]):[];
  $('#mbox').innerHTML=`<button class="zu-btn" data-zu aria-label="Schließen">×</button>
- <h2>${r.n}</h2>
+ <h2>${rn(r)}</h2>
  <div><span class="pill">${r.z>=60?bruch(r.z/60)+' Std':r.z+' Min'}</span><span class="pill">${KAT[r.k]}</span>${r.kl?'<span class="pill kl">Klassiker</span>':''}${r.c===1?'<span class="pill g">günstig</span>':''}</div>
  <div class="portion"><button data-p="-1" aria-label="weniger">−</button><b>${mP} ${mP==1?'Person':'Personen'}</b><button data-p="1" aria-label="mehr">+</button></div>
- <h3>Zutaten</h3><ul class="zu">${r.zu.map(z=>{const{n,sw}=zName(z);return`<li>${z[0]?'<b>'+fmt(z[0]*f,z[1])+'</b> ':''}${esc(n)}${sw?'<span class="tausch">getauscht</span>':''}</li>`}).join('')}</ul>
- <h3>So geht's</h3><ol class="schritte">${r.s.map(x=>`<li>${x}</li>`).join('')}</ol>
- ${v.map(([g,t])=>`<div class="geraet"><b>${GER[g]}</b> · ${t}</div>`).join('')}
- ${r.tip?`<div class="tipp">💡 ${r.tip}</div>`:''}
+ <button class="btn modal-add ${S.auswahl[r.id]?'zart':''}" data-madd>${S.auswahl[r.id]?'✓ Auf der Einkaufsliste, tippen zum Entfernen':'🛒 Auf die Einkaufsliste für '+mP+' '+(mP==1?'Person':'Personen')}</button>
+ <h3>Zutaten</h3><ul class="zu">${r.zu.map(z=>{const{n,sw}=zName(z);if(!n)return'';return`<li>${z[0]?'<b>'+fmt(z[0]*f,z[1])+'</b> ':''}${esc(n)}${sw?'<span class="tausch">getauscht</span>':''}</li>`}).join('')}</ul>
+ <h3>So geht's</h3><ol class="schritte">${r.s.map(x=>`<li>${tx(x)}</li>`).join('')}</ol>
+ ${v.map(([g,t])=>`<div class="geraet"><b>${GER[g]}</b> · ${tx(t)}</div>`).join('')}
+ ${r.tip?`<div class="tipp">💡 ${tx(r.tip)}</div>`:''}${r.dkt?`<div class="geraet"><b>🛒 Beim Diskonter</b> · ${r.dkt}</div>`:''}
  <h3>Deine Portion heute</h3>${handHTML(typ)}`}
 
+/* AUSWAHL */
+function renderKorb(){const n=Object.keys(S.auswahl).length,k=$('#korb');k.classList.toggle('an',n>0&&!$('#modal').classList.contains('auf'));k.textContent=`🛒 ${n} ${n==1?'Rezept':'Rezepte'} · Jetzt einkaufen`;if($('#shop').classList.contains('auf'))k.classList.remove('an')}
+function toggleAuswahl(id,p){if(S.auswahl[id])delete S.auswahl[id];else{S.auswahl[id]=p||S.set.pers;S.quelle='auswahl'}save();renderEinkauf();renderRezepte()}
+/* EINKAUFSMODUS */
+let wake=null;
+async function wachHalten(an){try{if(an&&navigator.wakeLock){wake=await navigator.wakeLock.request('screen')}else if(wake){await wake.release();wake=null}}catch(e){}}
+function alleItems(){const gr=einkaufDaten();return Object.keys(GRUPPE).filter(g=>gr[g]).map(g=>[g,gr[g]])}
+function renderShop(){const gs=alleItems();let tot=0,ok=0;const fertigL=[];
+ let h=gs.map(([g,items])=>{const offen=items.filter(i=>!S.check[i.k]);tot+=items.length;ok+=items.length-offen.length;
+  items.filter(i=>S.check[i.k]).forEach(i=>fertigL.push(i));
+  return offen.length?`<h3>${GRUPPE[g]}</h3>`+offen.map(srow).join(''):''}).join('');
+ if(!tot)h='<p class="fertig">Noch nichts auf der Liste. Such dir zuerst Rezepte aus.</p>';
+ else if(ok===tot)h='<p class="fertig">🎉 Alles im Wagerl. Gut gemacht!</p>'+h;
+ if(fertigL.length)h+=`<h3>Schon im Wagerl</h3>`+fertigL.map(srow).join('');
+ $('#shopListe').innerHTML=h;$('#shopZahl').textContent=tot?`${ok} von ${tot} erledigt`:'';$('#shopBar').style.width=tot?(ok/tot*100)+'%':'0'}
+function srow(i){const ok=!!S.check[i.k];return`<button class="srow ${ok?'ok':''}" data-s="${esc(i.k)}"><span class="kreis">${ok?'✓':''}</span><span class="st">${i.m?'<b>'+fmtK(i.m,i.u)+'</b> ':''}${esc(i.n)}</span></button>`}
+function shopAuf(){renderShop();$('#shop').classList.add('auf');document.body.style.overflow='hidden';$('#korb').classList.remove('an');wachHalten(true)}
+function shopZu(){$('#shop').classList.remove('auf');document.body.style.overflow='';wachHalten(false);renderEinkauf()}
 /* EVENTS */
 function geaendert(){if(S.plan)S.dirty=true;save();renderKueche();renderPlan();renderRezepte()}
 document.addEventListener('click',e=>{
  const o=e.target.closest('[data-open]');if(o){oeffne(o.dataset.open);return}
  const sw=e.target.closest('[data-swap]');if(sw){const[d,sl]=sw.dataset.swap.split('|');tausche(+d,sl);return}
  const tg=e.target.closest('[data-tag]');if(tg){const i=+tg.dataset.tag;S.body.tage[i]=TYPFOLGE[(TYPFOLGE.indexOf(S.body.tage[i])+1)%4];save();renderBedarf();renderPlan();return}
- const p=e.target.closest('[data-p]');if(p){mP=Math.max(1,Math.min(8,mP+ +p.dataset.p));zeichneModal();return}
+ const ad=e.target.closest('[data-add]');if(ad){toggleAuswahl(ad.dataset.add);return}
+ if(e.target.closest('[data-madd]')){toggleAuswahl(mR.id,mP);zeichneModal();return}
+ const wp=e.target.closest('[data-wp]');if(wp){const[id,d]=wp.dataset.wp.split('|');S.auswahl[id]=Math.max(1,Math.min(8,S.auswahl[id]+ +d));save();renderEinkauf();return}
+ const wg=e.target.closest('[data-weg]');if(wg){delete S.auswahl[wg.dataset.weg];save();renderEinkauf();renderRezepte();return}
+ if(e.target.id==='allesWeg'){S.auswahl={};save();renderEinkauf();renderRezepte();return}
+ if(e.target.id==='korb'){S.quelle='auswahl';save();renderEinkauf();shopAuf();return}
+ if(e.target.id==='losBtn'){shopAuf();return}
+ if(e.target.id==='shopZu'||e.target.id==='shopFertig'){shopZu();return}
+ if(e.target.id==='shopTeilen'){$('#teilen').click();return}
+ const sr=e.target.closest('[data-s]');if(sr){const k=sr.dataset.s;S.check[k]=!S.check[k];save();renderShop();return}
+ const p=e.target.closest('[data-p]');if(p){mP=Math.max(1,Math.min(8,mP+ +p.dataset.p));if(S.auswahl[mR.id]){S.auswahl[mR.id]=mP;save();renderEinkauf()}zeichneModal();return}
  if(e.target.closest('[data-zu]')||e.target.id==='modal')zu()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')zu()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){zu();if($('#shop').classList.contains('auf'))shopZu()}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&$('#shop').classList.contains('auf'))wachHalten(true)});
 $('#name').addEventListener('input',e=>{S.body.name=e.target.value;save()});
 $('#name').addEventListener('change',renderBedarf);
 $('#kg').addEventListener('change',e=>{S.body.kg=e.target.value;save();renderBedarf();renderPlan()});
@@ -595,22 +746,24 @@ $('#tz').addEventListener('change',e=>{S.body.tz=e.target.value;save();renderBed
 ['pers','blut','zWT','zWE','fokus'].forEach(id=>$('#'+id).addEventListener('change',e=>{S.set[id]=id==='pers'?+e.target.value:e.target.value;
  if(id==='pers'){save();renderEinkauf();return}geaendert();renderEinkauf()}));
 ['gf','lf'].forEach(id=>$('#'+id).addEventListener('change',e=>{S.set[id]=e.target.checked;save();renderKueche();renderRezepte();renderEinkauf()}));
-['guenstig','klassik','reste'].forEach(id=>$('#'+id).addEventListener('change',e=>{S.set[id]=e.target.checked;geaendert()}));
+['guenstig','klassik','reste','disk'].forEach(id=>$('#'+id).addEventListener('change',e=>{S.set[id]=e.target.checked;geaendert()}));
 document.addEventListener('change',e=>{const t=e.target;
  if(t.dataset.ger){S.set.ger[t.dataset.ger]=t.checked;geaendert()}
  else if(t.dataset.fl){S.set.fleisch[t.dataset.fl]=t.checked;geaendert()}
  else if(t.dataset.slot){S.set.slots[t.dataset.slot]=t.checked;save();renderPlan();renderEinkauf()}
  else if(t.dataset.chk!==undefined){S.check[t.dataset.chk]=t.checked;save();t.closest('.item').classList.toggle('ok',t.checked)}
+ else if(t.name==='quelle'){S.quelle=t.value;save();renderEinkauf()}
  else if(t.name==='rt'||t.id==='nurPassend')renderRezepte()});
 $('#suche').addEventListener('input',renderRezepte);
 $('#neu').addEventListener('click',()=>{erstellePlan();renderPlan();renderEinkauf()});
 $('#hakenWeg').addEventListener('click',()=>{S.check={};save();renderEinkauf()});
-$('#kopieren').addEventListener('click',async e=>{const t=einkaufText(),b=e.currentTarget;
+$('#teilen').addEventListener('click',async e=>{const t=einkaufText(),b=e.currentTarget;
+ if(navigator.share){try{await navigator.share({title:'Einkaufsliste',text:t});return}catch(err){if(err&&err.name==='AbortError')return}}
  try{await navigator.clipboard.writeText(t)}catch(err){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(x){}ta.remove()}
- b.textContent='✅ Kopiert';setTimeout(()=>b.textContent='📋 Liste kopieren',1800)});
+ b.textContent='✅ Kopiert';setTimeout(()=>b.textContent='📤 Liste schicken',1800)});
 function drucke(cls){document.body.classList.add(cls);window.print();setTimeout(()=>document.body.classList.remove(cls),500)}
 $('#druckPlan').addEventListener('click',()=>drucke('nur-plan'));
-$('#druckListe').addEventListener('click',()=>drucke('nur-einkauf'));
+
 $('#idee').addEventListener('click',()=>{const d=heuteIdx(),r=ziehe(kandidaten('A',d),new Set(),null,d>=5);if(r)oeffne(r.id)});
 
 /* START */
